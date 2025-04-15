@@ -13,3 +13,4 @@ A website that has my personal used feeds. Should also have a search bar to find
 
 ## Notes
 - Do not install npm packages globally. Hopefully this avoids update errors.
+- Add login and registration functionality later so people can modify their own.
