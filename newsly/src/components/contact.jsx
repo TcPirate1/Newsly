@@ -22,7 +22,7 @@ const Contact = () => {
     <div className="contact-container">
       <div id="contact-form">
         <div>
-          <h1>Nice to Meet You!</h1>
+          <h1 ref={ref}>Nice to Meet You!</h1>
           <h4>Have a question or just want to get in touch? Let&#39;s chat!</h4>
         </div>
         <p id="failure">Oopsie...message not sent.</p>
@@ -75,7 +75,7 @@ const Contact = () => {
             </label>
           </div>
           <div
-        //   Add Hcaptcha here
+            className="h-captcha"
           ></div>
           <div>
             <button name="submit" type="submit" id="submit">
@@ -86,7 +86,7 @@ const Contact = () => {
       </div>
     </div>
   );
-};
+});
 
 Contact.displayName = "Contact";
 
