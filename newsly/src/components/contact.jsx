@@ -1,32 +1,72 @@
 "use client";
 import { useState, useRef } from "react";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 const Contact = () => {
   const formRef = useRef();
+  const captchaRef = useRef(null);
   const [form, setForm] = useState({
     from_name: "",
     sender_email: "",
     message: "",
   });
 
+  const [captchaToken, setCaptchaToken] = useState(null);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleCaptchaVerify = (token) => {
+    setCaptchaToken(token);
+  };
+
+  const handleCaptchaExpire = () => {
+    setCaptchaToken(null);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!captchaToken) {
+      alert("Captcha not completed");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({...form, "h-captcha-response": captchaToken }),
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        alert("Your message was sent successfully, thank you!");
+        setForm({from_name: "", sender_email: "", message: ""});
+        setCaptchaToken(null);
+        captchaRef.current.resetCaptcha();
+      }
+      else {
+        alert("Oppsie... message was not sent.");
+      }
+    }
+    catch (err) {
+      console.error("Error submitting form:\n", err);
+      alert("An error occured. Please try again later.");
+    }
   };
 
   return (
     <div className="contact-container">
       <div id="contact-form">
         <div>
-          <h1 ref={ref}>Nice to Meet You!</h1>
+          <h1>Nice to Meet You!</h1>
           <h4>Have a question or just want to get in touch? Let&#39;s chat!</h4>
         </div>
-        <p id="failure">Oopsie...message not sent.</p>
-        <p id="success">Your message was sent successfully. Thank you!</p>
 
         <form ref={formRef} onSubmit={handleSubmit}>
           <input type="hidden" name="number" />
@@ -76,7 +116,14 @@ const Contact = () => {
           </div>
           <div
             className="h-captcha"
-          ></div>
+          >
+            <HCaptcha
+            sitekey={process.env.HCAPTCHA_SITE_KEY}
+            onVerify={handleCaptchaVerify}
+            onExpire={handleCaptchaExpire}
+            ref={captchaRef}
+            />
+          </div>
           <div>
             <button name="submit" type="submit" id="submit">
               SEND
