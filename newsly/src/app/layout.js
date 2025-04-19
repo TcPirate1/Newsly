@@ -1,6 +1,6 @@
 import "./globals.css";
-import navbar from "@/components/navbar";
-import footer from "@/components/footer"
+import NavBar from "@/components/navbar";
+import Footer from "@/components/footer"
 
 export const metadata = {
   title: "Newsly",
@@ -11,10 +11,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+      <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+      </head>
       <body>
-        <navbar/>
+        <NavBar/>
         {children}
-        <footer/>
+        <Footer/>
       </body>
     </html>
   );

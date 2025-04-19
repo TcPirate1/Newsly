@@ -62,7 +62,7 @@ const Contact = () => {
 
   return (
     <div className="contact-container">
-      <div id="contact-form">
+      <div className="contact-form">
         <div>
           <h1>Nice to Meet You!</h1>
           <h4>Have a question or just want to get in touch? Let&#39;s chat!</h4>
@@ -133,7 +133,7 @@ const Contact = () => {
       </div>
     </div>
   );
-});
+};
 
 Contact.displayName = "Contact";
 
