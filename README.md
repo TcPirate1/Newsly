@@ -14,3 +14,5 @@ A website that has my personal used feeds. Should also have a search bar to find
 ## Notes
 - Do not install npm packages globally. Hopefully this avoids update errors.
 - Add login and registration functionality later so people can modify their own.
+- script in <head> tag is causing hydration error. Consider NextJS's [script component](https://nextjs.org/docs/pages/api-reference/components/script)
+- [News](https://icons8.com/icon/Q3iuMwWv277W/news) icon by [Icons8](https://icons8.com/)
