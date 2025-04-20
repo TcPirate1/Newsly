@@ -11,9 +11,6 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
-      <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
-      </head>
       <body>
         <NavBar/>
         {children}
