@@ -118,7 +118,7 @@ const Contact = () => {
             className="h-captcha"
           >
             <HCaptcha
-            sitekey={process.env.HCAPTCHA_SITE_KEY}
+            sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY}
             onVerify={handleCaptchaVerify}
             onExpire={handleCaptchaExpire}
             ref={captchaRef}
