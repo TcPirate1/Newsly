@@ -10,8 +10,17 @@ export default function SearchPage() {
 
     useEffect(() => {
         if (query) {
-            fetch(`api/search/query=${encodeURIComponent(query)}`)
-            .then((res) => res.json())
+            fetch(`/api/search?query=${encodeURIComponent(query)}`)
+            .then((res) => {
+                const content = res.headers.get("content-type");
+                if (!res.ok) {
+                    throw new Error (`HTTP error: ${res.status}!`)
+                }
+                if (!content || !content.includes("application/json")) {
+                    throw new TypeError("Not application content or content type")
+                }
+                return res.json();
+            })
             .then((data) => setResults(data))
             .catch((err) => console.error(err));
         }
@@ -22,7 +31,9 @@ export default function SearchPage() {
             <h1>Search results for {query}:</h1>
             <ul>
                 {results.map((item) => {
-                    <li key={item.id}>{item.title}</li>
+                    <li key={item.id}>
+                        {item.title} {item.link}
+                        </li>
                 })}
             </ul>
         </div>

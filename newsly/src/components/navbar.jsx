@@ -10,7 +10,7 @@ const NavBar = () => {
             <div className="nav-right">
             <SearchToggle/>
             <Link href="/about" rel="noopener noreferrer">About</Link>
-            <Link href="#" rel="noopener noreferrer">Latest News</Link>
+            <Link href="/latest" rel="noopener noreferrer">Latest News</Link>
             <Link href="/contact" rel="noopener noreferrer">Contact us</Link>
             </div>
         </div>
