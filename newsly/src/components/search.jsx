@@ -16,7 +16,7 @@ const SearchToggle = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (query.trim()) {
-            route.push(`/search?query=?${encodeURIComponent(query.trim())}`);
+            route.push(`/searchResults?query=?${encodeURIComponent(query.trim())}`);
             setQuery('');
             setIsOpen(false);
         }
