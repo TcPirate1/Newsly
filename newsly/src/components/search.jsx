@@ -6,7 +6,6 @@ import { FaSearch } from "react-icons/fa";
 
 const SearchToggle = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [query, setQuery] = useState('');
     const route = useRouter();
 
     const toggleSearch = () => {
@@ -16,8 +15,7 @@ const SearchToggle = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (query.trim()) {
-            route.push(`/searchResults?query=${encodeURIComponent(query.trim())}`);
-            setQuery('');
+            route.push(`/results?query=${encodeURIComponent(query.trim())}`);
             setIsOpen(false);
         }
     };
