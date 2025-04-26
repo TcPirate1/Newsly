@@ -4,41 +4,37 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 
-const SearchToggle = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const route = useRouter();
+export default function SearchToggle() {
+    const router = useRouter();
+    const [query, setQuery] = useState('');
+    const [filter, setFilter] = useState('');
 
-    const toggleSearch = () => {
-        setIsOpen((prev) => (!prev));
-    };
-    
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (query.trim()) {
-            route.push(`/results?query=${encodeURIComponent(query.trim())}`);
-            setIsOpen(false);
+        const trimmedQuery = query?.trim();
+        if (trimmedQuery) {
+            // trimmedQuery has to be the same name as the params passed to dynamic route
+            router.push(`/results/${trimmedQuery.toLowerCase()}`);
         }
     };
 
-
     return (
-        <div className="search-container">
-            <button className="search-icon" onClick={toggleSearch} aria-label="Toggle Search">
+        <form onSubmit={handleSubmit}>
+            <input
+            id="feed-search"
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="RNZ, Stuff, VScode etc."
+            />
+            <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+                <option value="news">News</option>
+                <option value="dev">Developer (WIP)</option>
+                <option value="tech">Tech (WIP)</option>
+            </select>
+            <button type="submit">
                 <FaSearch/>
             </button>
-            {isOpen && (
-                <form onSubmit={handleSubmit}>
-                    <input
-                    type="text"
-                    className="search-input"
-                    placeholder="Search"
-                    value={query} onChange={(e) => setQuery(e.target.value)}/>
-                </form>
-            )}
-        </div>
+        </form>
     );
 }
-
-SearchToggle.displayName = "SearchToggle";
-
-export default SearchToggle
