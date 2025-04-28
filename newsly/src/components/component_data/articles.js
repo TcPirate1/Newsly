@@ -36,16 +36,15 @@ export const allFeeds = [
     link: "https://blogs.windows.com/feed",
     category: "tech",
   },
-  {
-    title: "",
-    link: "",
-    category: "",
-  },
 ];
 
 const parser = new Parser();
 
 export async function fetchArticles(url) {
+  try {
     const feed = await parser.parseURL(url);
     return feed;
+  } catch (err) {
+    console.log(err);
+  };
 }
