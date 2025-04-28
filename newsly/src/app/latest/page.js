@@ -1,10 +1,11 @@
-import { fetchArticles, rnzFeed } from "@/components/component_data/articles";
+import { fetchArticles, allFeeds } from "@/components/component_data/articles";
 
 export default async function latest() {
-    const feedPromise = rnzFeed.map((url) => fetchArticles(url));
-    const feed = await Promise.all(feedPromise);
-
-    const articles = feed.flat().sort((a,b) => new Date(b.pubDate) - new Date(a.pubDate));
+    const feedPromises = allFeeds.filter((feed) => feed.link).map(async (feed) => {
+        const data = await fetchArticles(feed.link);
+        return data;
+    })
+    const articles = await Promise.all(feedPromises);
 
     return (
         <div className="latest-container">

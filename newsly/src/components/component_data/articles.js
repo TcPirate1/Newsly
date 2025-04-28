@@ -1,9 +1,5 @@
 import Parser from "rss-parser";
 
-export const rnzFeed = [
-    "https://www.rnz.co.nz/rss/national.xml"
-];
-
 export const allFeeds = [
   {
     title: "RNZ",
