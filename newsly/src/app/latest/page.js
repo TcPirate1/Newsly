@@ -1,22 +1,53 @@
-import { fetchArticles, rnzFeed } from "@/components/component_data/articles";
+import { fetchArticles, allFeeds } from "@/components/component_data/articles";
+
+async function fetchFeeds() {
+    const feedPromise = allFeeds.filter((feed) => feed.link).map(async feed =>{
+        try {
+          const parsedFeed = await fetchArticles(feed.link);
+
+          const articles = parsedFeed.items.slice(0, 5).map(item => ({
+            title: item.title ?? 'No title',
+            link: item.link ?? '#',
+            pubDate: item.pubDate ?? '',
+          }));
+
+          return {
+            title: feed.title,
+            articles,
+          };
+
+        } catch (error) {
+          console.error(`Error fetching ${feed.title}:`, error);
+        };
+    });
+
+    return Promise.all(feedPromise);
+}
 
 export default async function latest() {
-    const feedPromise = rnzFeed.map((url) => fetchArticles(url));
-    const feed = await Promise.all(feedPromise);
-
-    const articles = feed.flat().sort((a,b) => new Date(b.pubDate) - new Date(a.pubDate));
+    const feeds = await fetchFeeds();
 
     return (
         <div className="latest-container">
-            <h1>Latest from RNZ</h1>
-            <ul>
-                {articles.map((item, index) => (
-                    <li key={index} className="articles">
-                        <a href={item.link} target="_blank" rel="noopener noreferrer">{item.title}</a>
-                        <p>{item.pubDate}</p>
-                    </li>
-                ))}
-            </ul>
+            <h1>Latest News</h1>
+            {feeds.map((feed, index) =>
+            <div key={index}>
+                <h3>{feed.title}</h3>
+                <ul>
+                    {feed.articles.length > 0 ? (
+                        feed.articles.map((article, articleIdx) => (
+                            <li key={articleIdx}>
+                                <a href={article.link} target="_blank" rel="noopener noreferrer">
+                                    {article.title}
+                                </a>
+                            </li>
+                        ))
+                    ) : (
+                        <li>No Articles Avaliable</li>
+                    )}
+                </ul>
+            </div>
+            )}
         </div>
     );
 }

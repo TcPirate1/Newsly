@@ -1,9 +1,5 @@
 import Parser from "rss-parser";
 
-export const rnzFeed = [
-    "https://www.rnz.co.nz/rss/national.xml"
-];
-
 export const allFeeds = [
   {
     title: "RNZ",
@@ -15,11 +11,11 @@ export const allFeeds = [
     link: "https://www.stuff.co.nz/rss",
     category: "news",
   },
-  {
-    title: "Christchurch News",
-    link: "https://newsline.ccc.govt.nz/news/stories",
-    category: "news",
-  },
+  // {
+  //   title: "Christchurch News",
+  //   link: "https://newsline.ccc.govt.nz/news/stories",
+  //   category: "news",
+  // },
   {
     title: "Github",
     link: "https:/github.blog/changelog/feed/",
@@ -40,16 +36,26 @@ export const allFeeds = [
     link: "https://blogs.windows.com/feed",
     category: "tech",
   },
-  {
-    title: "",
-    link: "",
-    category: "",
-  },
 ];
 
 const parser = new Parser();
 
 export async function fetchArticles(url) {
-    const feed = await parser.parseURL(url);
-    return feed;
+  try {
+    return await parser.parseURL(url);
+  } catch (err) {
+    console.error(err);
+
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status ${response.status}`);
+      }
+      const xml = await response.text();
+      return await parser.parseString(xml);
+    } catch (xmlErr) {
+      console.error(`Can't parse xml: ${xmlErr}`);
+      return null;
+    };
+  };
 }
