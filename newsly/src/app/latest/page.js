@@ -18,10 +18,6 @@ async function fetchFeeds() {
 
         } catch (error) {
           console.error(`Error fetching ${feed.title}:`, error);
-          return {
-            title: feed.title,
-            articles: [],
-          };
         };
     });
 

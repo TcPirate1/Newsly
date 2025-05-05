@@ -11,11 +11,11 @@ export const allFeeds = [
     link: "https://www.stuff.co.nz/rss",
     category: "news",
   },
-  {
-    title: "Christchurch News",
-    link: "https://newsline.ccc.govt.nz/news/stories",
-    category: "news",
-  },
+  // {
+  //   title: "Christchurch News",
+  //   link: "https://newsline.ccc.govt.nz/news/stories",
+  //   category: "news",
+  // },
   {
     title: "Github",
     link: "https:/github.blog/changelog/feed/",
@@ -42,9 +42,20 @@ const parser = new Parser();
 
 export async function fetchArticles(url) {
   try {
-    const feed = await parser.parseURL(url);
-    return feed;
+    return await parser.parseURL(url);
   } catch (err) {
-    console.log(err);
+    console.error(err);
+
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status ${response.status}`);
+      }
+      const xml = await response.text();
+      return await parser.parseString(xml);
+    } catch (xmlErr) {
+      console.error(`Can't parse xml: ${xmlErr}`);
+      return null;
+    };
   };
 }
