@@ -1,28 +1,4 @@
-import { fetchArticles, allFeeds } from "@/components/component_data/articles";
-
-async function fetchFeeds() {
-    const feedPromise = allFeeds.filter((feed) => feed.link).map(async feed =>{
-        try {
-          const parsedFeed = await fetchArticles(feed.link);
-
-          const articles = parsedFeed.items.slice(0, 5).map(item => ({
-            title: item.title ?? 'No title',
-            link: item.link ?? '#',
-            pubDate: item.pubDate ?? '',
-          }));
-
-          return {
-            title: feed.title,
-            articles,
-          };
-
-        } catch (error) {
-          console.error(`Error fetching ${feed.title}:`, error);
-        };
-    });
-
-    return Promise.all(feedPromise);
-}
+import { fetchFeeds } from "@/components/component_data/articles";
 
 export default async function latest() {
     const feeds = await fetchFeeds();
