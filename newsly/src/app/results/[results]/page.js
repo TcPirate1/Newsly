@@ -14,15 +14,15 @@ export default async function SearchResults({params}) {
 
     return (
         <div>
-            <h1>{title} articles</h1>
+            <h1>{title}</h1>
             <ul>
-                {items.map((item, i) => (
+                {(items.map((item, i) => (
                     <li key={i}>
                         <a href={item.link} target="_blank" rel="noopener noreferrer">
                             {item.title}
                         </a>
                     </li>
-                ))}
+                )))}
             </ul>
         </div>
     );
