@@ -65,7 +65,7 @@ export async function fetchFeeds() {
       try {
         const parsedFeed = await fetchArticles(feed.link);
 
-        const articles = parsedFeed.items.slice(0, 5).map(item => ({
+        const articles = parsedFeed.items.map(item => ({
           title: item.title ?? 'No title',
           link: item.link ?? '#',
           pubDate: item.pubDate ?? '',
