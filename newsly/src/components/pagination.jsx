@@ -19,7 +19,12 @@ export default function Pagination({
   return (
     <div className="pagination">
       {currentPage > 1 && (
-        <Link href={createPageLink(currentPage - 1)}>
+        <Link
+          href={createPageLink(currentPage - 1)}
+          style={{
+            textDecoration: "underline",
+          }}
+        >
           Previous
         </Link>
       )}
@@ -27,7 +32,12 @@ export default function Pagination({
         Page {currentPage} of {totalPages}
       </span>
       {currentPage < totalPages && (
-        <Link href={createPageLink(currentPage + 1)}>
+        <Link
+          href={createPageLink(currentPage + 1)}
+          style={{
+            textDecoration: "underline",
+          }}
+        >
           Next
         </Link>
       )}
